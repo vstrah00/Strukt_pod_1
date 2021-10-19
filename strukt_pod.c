@@ -4,7 +4,6 @@
 
 #define MAX_LINE 1024
 #define MAX_NUM 128
-#define MAX_BR_BODOVA 55.0
 
 typedef struct _stud{
     char ime[20];
@@ -14,14 +13,15 @@ typedef struct _stud{
 
 int ProcitajBrojRedakaIzDatoteke(char imeFajla[]);
 stud* AlocirajProstorIProcitajStudente(int br, char imeFajla[]);
-float RacunaRelativanBrBodova(int brBodova);
+int TraziNajveciBrojBodova(stud* sviPodaciStudenata, int brojSt);
+float RacunaRelativanBrBodova(int brBodova, int max_br_bodova);
 
 int main(){
     char imeDatoteke[25]={0};
-    int brojSt=0;
+    int brojSt=0, max_br_bodova=0;
     stud* sviPodaciStudenata=NULL;
 
-    printf("Unesi ime datoteke sa podacima studenata:\t");
+    printf("Unesite ime datoteke sa podacima studenata:\t");
     scanf("%s", imeDatoteke);
 
     brojSt = ProcitajBrojRedakaIzDatoteke(imeDatoteke);
@@ -33,16 +33,14 @@ int main(){
     if(sviPodaciStudenata==NULL){
         return 0;
     }
+
     puts(" ");
+
+    max_br_bodova=TraziNajveciBrojBodova(sviPodaciStudenata, brojSt);
+
     for(int i=0; i<brojSt; i++){
-        printf("\t%s %s:\t %d | %.2f\n", sviPodaciStudenata[i].ime, sviPodaciStudenata[i].prezime, sviPodaciStudenata[i].bodovi, RacunaRelativanBrBodova(sviPodaciStudenata[i].bodovi));
+        printf("\t%s %s:\t\t %d | %.2f\n", sviPodaciStudenata[i].ime, sviPodaciStudenata[i].prezime, sviPodaciStudenata[i].bodovi, RacunaRelativanBrBodova(sviPodaciStudenata[i].bodovi, max_br_bodova));
     }
-
-}
-
-float RacunaRelativanBrBodova(int brBodova){
-
-    return((float)(brBodova/MAX_BR_BODOVA*100));
 
 }
 
@@ -95,3 +93,25 @@ stud* AlocirajProstorIProcitajStudente(int br, char imeFajla[])
     return studenti;
 
 }
+
+int TraziNajveciBrojBodova(stud* sviPodaciStudenata, int brojSt){
+    int pomocniNiz[128]={0};
+    int max=sviPodaciStudenata[0].bodovi;
+
+    for(int i=1; i<brojSt; i++){
+            if(max<sviPodaciStudenata[i].bodovi){
+                max=sviPodaciStudenata[i].bodovi;
+            }
+    }
+
+    return max;
+}
+
+
+float RacunaRelativanBrBodova(int brBodova, int max_br_bodova){
+
+    return((brBodova/(float) max_br_bodova)*100);
+
+}
+
+
