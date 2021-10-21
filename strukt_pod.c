@@ -90,6 +90,8 @@ stud* AlocirajProstorIProcitajStudente(int br, char imeFajla[])
         brojilo++;
     }
 
+    fclose(fp);
+
     return studenti;
 
 }
