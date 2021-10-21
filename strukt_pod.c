@@ -26,12 +26,12 @@ int main(){
 
     brojSt = ProcitajBrojRedakaIzDatoteke(imeDatoteke);
     if(brojSt==-1){
-        return 0;
+        return -1;
     }
 
     sviPodaciStudenata = AlocirajProstorIProcitajStudente(brojSt, imeDatoteke);
     if(sviPodaciStudenata==NULL){
-        return 0;
+        return -1;
     }
 
     puts(" ");
